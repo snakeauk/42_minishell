@@ -2,7 +2,7 @@ NAME		=	minishell
 
 # commands
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-g# -Wall -Wextra -Werror
 RM			=	rm -rf
 
 # libft
@@ -12,22 +12,27 @@ LIBFT_A     =	$(LIBFT_DIR)/$(LIBFT).a
 
 # srcs
 SRCS_DIR	=	./srcs
+BUILTIN_DIR	=	$(SRCS_DIR)/builtin
 
-SRCS	=	$(SRCS_DIR)/*.c
+SRCS_COMMON	=	$(wildcard $(SRCS_DIR)/*.c)
+BUILTIN_SRCS=	$(wildcard $(BUILTIN_DIR)/*.c)
+SRCS		=	$(SRCS_COMMON) $(BUILTIN_SRCS)
 
 # object
 OBJS	=	$(SRCS:.c=.o)
+
+# includes
+INCLUDES	=	-I ./includes -I $(LIBFT_DIR)/includes -I $(OS_DIR)/includes
 
 # OS differences
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 	OS_DIR		=	$(LIBFT_DIR)/mac
+	INCLUDES	+=	-lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 else
 	OS_DIR		=	$(LIBFT_DIR)/linux
 endif
 
-# includes
-INCLUDES	=	-I ./includes -I $(LIBFT_DIR)/includes -I $(OS_DIR)/includes
 
 # font color
 RESET		=	\033[0m
@@ -66,13 +71,13 @@ $(LIBFT_A):
 clean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning objects...$(RESET)"
 	@$(MAKE) clean -C $(LIBFT_DIR)
-	@$(RM) $(OBJS) $(SERVER_OBJS)
+	@$(RM) $(OBJS)
 	@echo "$(BOLD)$(LIGHT_BLUE)Objects cleaned!$(RESET)"
 
 fclean:
 	@echo "$(BOLD)$(LIGHT_BLUE)Full clean...$(RESET)"
 	@$(MAKE) fclean -C $(LIBFT_DIR)
-	@$(RM) $(OBJS) $(SERVER_OBJS) $(NAME) $(SERVER_NAME)
+	@$(RM) $(OBJS) $(NAME)
 	@echo "$(BOLD)$(LIGHT_BLUE)Full clean complete!$(RESET)"
 
 re: fclean all
