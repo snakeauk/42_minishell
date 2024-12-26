@@ -12,8 +12,7 @@ int builtin_pwd(int argc, char **argv)
     }
     if (argc == 1)
     {
-        if (getcwd(buf, PATH_MAX) < 0)
-            return (1);
+        
         ft_printf("%s\n", buf);
     }
     free(buf);

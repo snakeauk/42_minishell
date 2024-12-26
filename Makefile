@@ -4,6 +4,7 @@ NAME		=	minishell
 CC			=	cc
 CFLAGS		=	-g# -Wall -Wextra -Werror
 RM			=	rm -rf
+MAKEFLAGS	+=	--no-print-directory
 
 # libft
 LIBFT		=	libft

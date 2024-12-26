@@ -12,6 +12,16 @@ int ft_arraylen(void **array)
     return (len);
 }
 
+char *read_line(char *message)
+{
+    char    *line;
+
+    ft_fputs(message, STDOUT_FILENO);
+    get_next_line(STDIN_FILENO, &line);
+    line[ft_strlen(line) - 1] = '\0';
+    return (line);
+}
+
 int ft_readline(char *message)
 {
     char    *input;

@@ -10,7 +10,14 @@ int builtin_exit(int argc, char **argv)
         ft_dprintf(STDERR_FILENO, "cd: too many arguments\n");
     else
     {
-        status = ft_atoi(argv[1]);
+        if (!ft_isdigit(argv[1][0]))
+        {
+            ft_dprintf(STDERR_FILENO, \
+                "exit: %s: numeric argument required\n", argv[1]);
+            status = 2;
+        }
+        else
+            status = ft_atoi(argv[1]);
         exit(status % 256);
     }
     return (0);

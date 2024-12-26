@@ -4,6 +4,7 @@
         "readline.h": "c",
         "builtins.h": "c",
         "ft_builtins.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "ft_printf.h": "c"
     }
 }
