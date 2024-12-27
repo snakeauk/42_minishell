@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+void sigint_handler(int sig) {
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    printf("\n");
+    rl_redisplay();
+}
+
 int main(int argc, char **argv)
 {
     int ret;
@@ -10,7 +17,8 @@ int main(int argc, char **argv)
         printf("Error: invalid argments.\n");
         return (EXIT_FAILURE);
     }
-    ret = ft_readline("minishell");
+    signal(SIGINT, sigint_handler);
+    ret = ft_readline("minishell$ ");
     return (ret);
 }
 // -------------------------------builtin debug--------------------------------------------

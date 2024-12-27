@@ -25,22 +25,22 @@ char *read_line(char *message)
 int ft_readline(char *message)
 {
     char    *input;
-    char    *msg;
     char    **cmd;
     int     ret;
 
     ret = 0;
+    rl_clear_history();
     while (1)
     {
-        msg = ft_strjoin(message, "> ");
-        input = readline(msg);
-        free(msg);
+        input = readline(message);
+        add_history(input);
         cmd = ft_split(input, ' ');
         free(input);
         if (!cmd)
-            return (-1);
+            continue ;
         ret = builtin_switch(ft_arraylen((void **)cmd), cmd);
         ft_free_array2((void **)cmd);
     }
+    rl_clear_history();
     return (ret);
 }
