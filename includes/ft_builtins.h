@@ -7,6 +7,7 @@
 #include <readline/readline.h>
 #include "libft.h"
 #include "ft_printf.h"
+#include "minishell.h" // cmp.c
 
 // for pwd.c
 #define PATH_MAX 1024

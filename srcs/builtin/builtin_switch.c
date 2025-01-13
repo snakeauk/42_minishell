@@ -4,19 +4,19 @@ int builtin_switch(int argc, char **argv)
 {
     int ret;
 
-    if (!argv)
+    if (!argv || !*argv)
     {
         ft_dprintf(STDERR_FILENO, "Error: builtin_switch: argv is null\n");
         return (1);
     }
     ret = 0;
-    if (ft_strcmp(argv[0], "echo"))
+    if (cmp(argv[0], "echo"))
         ret = builtin_echo(argc, argv);
-    else if (ft_strcmp(argv[0], "cd"))
+    else if (cmp(argv[0], "cd"))
         ret = builtin_cd(argc, argv);
-    else if (ft_strcmp(argv[0], "pwd"))
+    else if (cmp(argv[0], "pwd"))
         ret = builtin_pwd(argc, argv);
-    else if (ft_strcmp(argv[0], "exit"))
+    else if (cmp(argv[0], "exit"))
         ret = builtin_exit(argc, argv);
     else
     {

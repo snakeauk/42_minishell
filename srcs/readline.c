@@ -12,14 +12,20 @@ int ft_arraylen(void **array)
     return (len);
 }
 
-char *read_line(char *message)
+int print_token(t_token **token)
 {
-    char    *line;
+    t_token *current;
+    int     ret;
 
-    ft_fputs(message, STDOUT_FILENO);
-    get_next_line(STDIN_FILENO, &line);
-    line[ft_strlen(line) - 1] = '\0';
-    return (line);
+    ret = 0;
+    current = (*token);
+    while (current)
+    {
+        printf("Token: '%s', Type: %d\n", current->value, current->type);
+        current = current->next;
+        ret++;
+    }
+    return (ret);
 }
 
 int ft_readline(char *message)
@@ -27,20 +33,26 @@ int ft_readline(char *message)
     char    *input;
     char    **cmd;
     int     ret;
+    t_token *token;
 
     ret = 0;
     rl_clear_history();
     while (1)
     {
         input = readline(message);
+        if (!*input)
+            continue ;
         add_history(input);
+        // token = lexer(input);
+        // print_token(&token);
+        // free_token(&token);
+        // free(input);
         cmd = ft_split(input, ' ');
         free(input);
-        if (!cmd)
+        if (!cmd || !*cmd)
             continue ;
         ret = builtin_switch(ft_arraylen((void **)cmd), cmd);
         ft_free_array2((void **)cmd);
     }
-    rl_clear_history();
     return (ret);
 }

@@ -14,10 +14,12 @@ LIBFT_A     =	$(LIBFT_DIR)/$(LIBFT).a
 # srcs
 SRCS_DIR	=	./srcs
 BUILTIN_DIR	=	$(SRCS_DIR)/builtin
+LEXER_DIR	=	$(SRCS_DIR)/lexer
 
 SRCS_COMMON	=	$(wildcard $(SRCS_DIR)/*.c)
 BUILTIN_SRCS=	$(wildcard $(BUILTIN_DIR)/*.c)
-SRCS		=	$(SRCS_COMMON) $(BUILTIN_SRCS)
+LEXER_SRCS	=	$(wildcard $(LEXER_DIR)/*.c)
+SRCS		=	$(SRCS_COMMON) $(BUILTIN_SRCS) $(LEXER_SRCS)
 
 # object
 OBJS	=	$(SRCS:.c=.o)
