@@ -90,6 +90,7 @@ STRING_SRCS	=	$(STRING_DIR)/ft_split.c \
 				$(STRING_DIR)/ft_strchr.c \
 				$(STRING_DIR)/ft_strcmp.c \
 				$(STRING_DIR)/ft_strdup.c \
+				$(STRING_DIR)/ft_strndup.c \
 				$(STRING_DIR)/ft_striteri.c \
 				$(STRING_DIR)/ft_strjoin.c \
 				$(STRING_DIR)/ft_strlcat.c \

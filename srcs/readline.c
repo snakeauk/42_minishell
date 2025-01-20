@@ -12,12 +12,11 @@ int ft_arraylen(void **array)
     return (len);
 }
 
-int ft_readline(void)
+int ft_readline(t_minishell *minishell)
 {
     char    *input;
     char    **cmd;
     int     ret;
-    t_token *token;
 
     ret = 0;
     rl_clear_history();
@@ -27,16 +26,14 @@ int ft_readline(void)
         if (!*input)
             continue ;
         add_history(input);
-        // token = lexer(input);
-        // print_token(&token);
-        // free_token(&token);
-        // free(input);
-        cmd = ft_split(input, ' ');
+        minishell->token = lexer(input);
         free(input);
-        if (!cmd || !*cmd)
-            continue ;
-        ret = builtin_switch(ft_arraylen((void **)cmd), cmd);
-        ft_free_array2((void **)cmd);
+        if (!*minishell->token)
+            continue;
+        debug_lexer(minishell->token);
+        // ret = builtin_switch(ft_arraylen((void **)cmd), cmd);
+        // ft_free_array2((void **)cmd);
+        free_token(minishell->token);
     }
     return (ret);
 }

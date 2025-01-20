@@ -15,11 +15,13 @@ LIBFT_A     =	$(LIBFT_DIR)/$(LIBFT).a
 SRCS_DIR	=	./srcs
 BUILTIN_DIR	=	$(SRCS_DIR)/builtin
 LEXER_DIR	=	$(SRCS_DIR)/lexer
+TYPE_DIR	=	$(SRCS_DIR)/type
 
 SRCS_COMMON	=	$(wildcard $(SRCS_DIR)/*.c)
 BUILTIN_SRCS=	$(wildcard $(BUILTIN_DIR)/*.c)
 LEXER_SRCS	=	$(wildcard $(LEXER_DIR)/*.c)
-SRCS		=	$(SRCS_COMMON) $(BUILTIN_SRCS) $(LEXER_SRCS)
+TYPE_SRCS	=	$(wildcard $(TYPE_DIR)/*.c)
+SRCS		=	$(SRCS_COMMON) $(BUILTIN_SRCS) $(LEXER_SRCS) $(TYPE_SRCS)
 
 # object
 OBJS	=	$(SRCS:.c=.o)
@@ -31,10 +33,10 @@ INCLUDES	=	-I ./includes -I $(LIBFT_DIR)/includes -I $(OS_DIR)/includes
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 	OS_DIR		=	$(LIBFT_DIR)/mac
-	INCLUDES	+=	-I/opt/homebrew/opt/readline/include
 	LDFLAGS		+=	-L/opt/homebrew/opt/readline/lib -lreadline
 else
 	OS_DIR		=	$(LIBFT_DIR)/linux
+	LDFLAGS		+= -lreadline
 endif
 
 
