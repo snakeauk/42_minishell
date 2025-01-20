@@ -18,7 +18,7 @@ int main(int argc, char **argv)
         return (EXIT_FAILURE);
     }
     signal(SIGINT, sigint_handler);
-    ret = ft_readline("minishell$ ");
+    ret = ft_readline();
     return (ret);
 }
 // -------------------------------builtin debug--------------------------------------------
