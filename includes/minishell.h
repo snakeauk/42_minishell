@@ -28,7 +28,7 @@
 
 
 int main(int argc, char **argv);
-int ft_readline(char *message);
+int ft_readline(void);
 int cmp(const char *s1, const char *s2);
 char    *ft_getenv(char *path);
 

@@ -28,7 +28,7 @@ int print_token(t_token **token)
     return (ret);
 }
 
-int ft_readline(char *message)
+int ft_readline(void)
 {
     char    *input;
     char    **cmd;
@@ -39,7 +39,7 @@ int ft_readline(char *message)
     rl_clear_history();
     while (1)
     {
-        input = readline(message);
+        input = readline("minishell$ ");
         if (!*input)
             continue ;
         add_history(input);
