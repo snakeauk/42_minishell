@@ -30,7 +30,10 @@ int ft_readline(t_minishell *minishell)
         free(input);
         if (!*minishell->token)
             continue;
-        debug_lexer(minishell->token);
+
+        // lexerデバック用
+        // debug_lexer(minishell->token);
+
         // ret = builtin_switch(ft_arraylen((void **)cmd), cmd);
         // ft_free_array2((void **)cmd);
         free_token(minishell->token);
