@@ -9,7 +9,8 @@ typedef enum e_token_type {
     REDIRECT_APPEND,
     HEREDOC,
     SQUOTE,
-    DQUOTE
+    DQUOTE,
+    ERROR
 	// SEMICOLON
 }               t_token_type;
 

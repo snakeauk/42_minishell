@@ -13,9 +13,17 @@
 #include "struct.h"
 #include "lexer.h"
 #include "ft_builtins.h"
+#include "free.h"
+#include "debug.h"
 
 int main(int argc, char **argv, char **envp);
-int ft_readline(void);
+int ft_readline(t_minishell *minishell);
 char    *ft_getenv(char *path);
+
+// init.c
+t_minishell *init_minishell(char **envp);
+
+// is
+int	is_pipe(char c);
 
 #endif

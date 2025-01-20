@@ -37,7 +37,7 @@ int builtin_echo(int argc, char **argv)
     {
         if (index != 1)
             ft_dprintf(STDOUT_FILENO, " ");
-        print_echo(argv[index], (cmp(argv[0] , "-e")));
+        print_echo(argv[index], (ft_strcmp(argv[0] , "-e")));
         ft_dprintf(STDOUT_FILENO, "\n");
         index++;
     }

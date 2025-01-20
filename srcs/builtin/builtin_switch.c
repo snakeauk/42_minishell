@@ -10,13 +10,13 @@ int builtin_switch(int argc, char **argv)
         return (1);
     }
     ret = 0;
-    if (cmp(argv[0], "echo"))
+    if (ft_strcmp(argv[0], "echo"))
         ret = builtin_echo(argc, argv);
-    else if (cmp(argv[0], "cd"))
+    else if (ft_strcmp(argv[0], "cd"))
         ret = builtin_cd(argc, argv);
-    else if (cmp(argv[0], "pwd"))
+    else if (ft_strcmp(argv[0], "pwd"))
         ret = builtin_pwd(argc, argv);
-    else if (cmp(argv[0], "exit"))
+    else if (ft_strcmp(argv[0], "exit"))
         ret = builtin_exit(argc, argv);
     else
     {

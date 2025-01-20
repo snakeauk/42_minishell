@@ -10,7 +10,6 @@
 #include "minishell.h" // cmp.c
 
 // for pwd.c
-#define PATH_MAX 1024
 
 int builtin_switch(int argc, char **argv);
 int builtin_echo(int argc, char **argv);
