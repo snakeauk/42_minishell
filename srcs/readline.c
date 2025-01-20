@@ -12,22 +12,6 @@ int ft_arraylen(void **array)
     return (len);
 }
 
-int print_token(t_token **token)
-{
-    t_token *current;
-    int     ret;
-
-    ret = 0;
-    current = (*token);
-    while (current)
-    {
-        printf("Token: '%s', Type: %d\n", current->value, current->type);
-        current = current->next;
-        ret++;
-    }
-    return (ret);
-}
-
 int ft_readline(void)
 {
     char    *input;

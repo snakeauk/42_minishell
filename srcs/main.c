@@ -7,16 +7,20 @@ void sigint_handler(int sig) {
     rl_redisplay();
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
     int ret;
+    t_minishell *minishell;
 
     ret = 0;
     if (argc != 1)
     {
         printf("Error: invalid argments.\n");
-        return (EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
+    minishell = init_minishell(envp);
+    if (!minishell)
+        exit(EXIT_FAILURE);
     signal(SIGINT, sigint_handler);
     ret = ft_readline();
     return (ret);
