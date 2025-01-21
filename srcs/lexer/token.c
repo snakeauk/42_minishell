@@ -2,7 +2,7 @@
 
 t_token	*init_token_node(char *string, t_token_type type);
 t_token	*token_last(t_token *token);
-void	token_add_back(t_token **token, char *string, t_token_type type);
+void	append_token(t_token **tokens, t_token *node);
 
 t_token	*init_token_node(char *string, t_token_type type)
 {
@@ -29,35 +29,15 @@ t_token	*token_last(t_token *token)
 	return (token);
 }
 
-void	token_add_back(t_token **token, char *string, t_token_type type)
+void	append_token(t_token **tokens, t_token *node)
 {
-	t_token *new;
-	t_token *last;
+	t_token	*last;
 
-	if (!string)
-		return ;
-	new = init_token_node(string, type);
-	if (!new)
-		return ;
-	if (token)
+	if (!*tokens)
+		*tokens = node;
+	else
 	{
-		if (*token)
-		{
-			last = token_last(*token);
-			last->next = new;
-		}
-		else
-			*token = new;
+		last = token_last(*tokens);
+		last->next = node;
 	}
 }
-
-// #include <stdio.h>
-// int main(int argc, char **argv)
-// {
-// 	if (argc != 3)
-// 		return (0);
-// 	char *s = argv[1];
-// 	printf("ft_strndup: %s\n", ft_strndup(s, atoi(argv[2])));
-// 	printf("   strndup: %s\n", strndup(s, atoi(argv[2])));
-// 	return (0);
-// }

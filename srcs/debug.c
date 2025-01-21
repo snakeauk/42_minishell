@@ -1,5 +1,37 @@
 #include "debug.h"
 
+int	debug_token(t_token **token)
+{
+	int		ret;
+	t_token	*start;
+
+	start = (*token);
+	ret = 0;
+	while (start)
+	{
+		printf("%s\n", start->string);
+		ret++;
+		start = start->next;
+	}
+	return (ret);
+}
+
+void	debug_parser(t_ast **ast)
+{
+	if (!ast || !*ast)
+		return ;
+	if ((*ast)->left)
+	{
+		debug_parser(&(*ast)->right);
+	}
+	else if ((*ast)->right)
+	{
+		debug_parser(&(*ast)->right);
+	}
+	if ((*ast)->token)
+		debug_token(&(*ast)->token);
+}
+
 int	debug_lexer(t_token **token)
 {
 	int		ret;

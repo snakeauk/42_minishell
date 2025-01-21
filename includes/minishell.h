@@ -12,6 +12,7 @@
 // minishell
 #include "struct.h"
 #include "lexer.h"
+#include "parser.h"
 #include "ft_builtins.h"
 #include "free.h"
 #include "debug.h"

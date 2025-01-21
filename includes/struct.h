@@ -21,17 +21,19 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
-typedef struct s_parser
+typedef struct s_ast
 {
     t_token         *token;
-    struct s_parser *right;
-    struct s_parser *left;
-}               t_parser;
+    t_token         *redirect;
+    struct s_ast    *left;
+    struct s_ast    *right;
+}               t_ast;
 
 typedef struct s_minishell
 {
 	char **envp;
 	t_token **token;
+    t_ast   **ast;
 }	t_minishell;
 
 #endif
