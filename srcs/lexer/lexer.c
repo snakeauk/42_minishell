@@ -26,7 +26,7 @@ void	lexer_reserved_word(t_token **token, char **string)
 		token = NULL;
 		return ;
 	}
-	token_add_back(token, ft_strndup(start, (size_t)(*string - start)), type);
+	append_token(token, init_token_node(ft_strndup(start, (size_t)(*string - start)), type));
 }
 
 t_token **lexer(char *input)
@@ -49,7 +49,7 @@ t_token **lexer(char *input)
 		{
 			// inputまでをリストに追加
 			if (input != start)
-				token_add_back(token, ft_strndup(start, input - start), WORD);
+				append_token(token, init_token_node(ft_strndup(start, input - start), WORD));
 			lexer_reserved_word(token, &input);
 			if (!token)
 				return (NULL);
@@ -59,6 +59,6 @@ t_token **lexer(char *input)
 			input++;
 	}
 	if (input != start)
-		token_add_back(token, ft_strndup(start, input - start), WORD);
+		append_token(token, init_token_node(ft_strndup(start, input - start), WORD));
 	return (token);
 }

@@ -34,9 +34,16 @@ int ft_readline(t_minishell *minishell)
         // lexerデバック用
         // debug_lexer(minishell->token);
 
+        minishell->ast = parser(minishell->token);
+        if (!*minishell->ast)
+            continue;
+        // parserデバック用
+        debug_parser(minishell->ast);
+
         // ret = builtin_switch(ft_arraylen((void **)cmd), cmd);
         // ft_free_array2((void **)cmd);
         free_token(minishell->token);
+        free_ast(minishell->ast);
     }
     return (ret);
 }

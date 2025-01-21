@@ -1,7 +1,28 @@
 #include "free.h"
 
+void	free_ast(t_ast **ast);
 void	free_token(t_token **token);
 void 	free_minishell(t_minishell *minishell);
+
+void	free_ast(t_ast **ast)
+{
+	if (!ast || !*ast)
+		return ;
+	if ((*ast)->right)
+	{
+		free_ast(&(*ast)->right);
+	}
+	else if ((*ast)->left)
+	{
+		free_ast(&(*ast)->left);
+	}
+	if ((*ast)->redirect)
+		free_token(&(*ast)->redirect);
+	if ((*ast)->token)
+		free_token(&(*ast)->token);
+	free(*ast);
+	*ast = NULL;
+}
 
 void	free_token(t_token **token)
 {
