@@ -33,6 +33,24 @@ void	append_token(t_token **tokens, char *string, t_token_type type)
 		head->next = new_token;
 	}
 }
+/**
+ * @return quotationが見つからなかったら1を返す
+ * @return　正常でquoteまでincrementして0を返す
+ */
+int	skip_while_next_quote(char *input, int *next_word_len)
+{
+	char	quote;
+
+	quote = input[*next_word_len];
+	(*next_word_len)++;
+	while (quote != input[*next_word_len])
+	{
+		if (input[*next_word_len] == '\0')
+			return (1);
+		(*next_word_len)++;
+	}
+	return (0);
+}
 
 // void	free_token(t_token **token)
 // {

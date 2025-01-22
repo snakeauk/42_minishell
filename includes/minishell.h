@@ -35,6 +35,7 @@ int			is_pipe(char c);
 t_token		*ft_lexer(char *input);
 t_token		*token_new(char *string, t_token_type type);
 void		append_token(t_token **tokens, char *string, t_token_type type);
+int			skip_while_next_quote(char *input, int *next_word_len);
 
 /* -----------------------------  PARSER    --------------------------------- */
 t_ast		*ft_parser(t_token *token);

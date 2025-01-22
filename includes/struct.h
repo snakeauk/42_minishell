@@ -10,8 +10,8 @@ typedef enum e_token_type
 	REDIRECT_OUT,
 	REDIRECT_APPEND,
 	HEREDOC,
-	SQUOTE,
-	DQUOTE,
+	// SQUOTE,
+	// DQUOTE,
 	ERROR
 	// SEMICOLON
 }					t_token_type;

@@ -11,7 +11,13 @@ int	process_meta_char(t_token *token, char *input, int *index)
 	LOG;
 	if (input[*index] == '\0')
 		return (1);
-	if (ft_strncmp("|", &input[*index], 1) == 0)
+	else if (ft_strncmp(" ", &input[*index], 1) == 0)
+	{
+		while (input[*index] == ' ')
+			(*index)++;
+		return (0);
+	}
+	else if (ft_strncmp("|", &input[*index], 1) == 0)
 		type = PIPE;
 	else if (ft_strncmp("<<", &input[*index], 2) == 0)
 	{
@@ -37,15 +43,25 @@ t_token	*ft_lexer(char *input)
 {
 	t_token	*token;
 	int		next_word_len;
+	int		quote_status;
 
 	LOG;
 	token = NULL;
+	// quote_status = 0; // 1 single 2 double
 	while (*input)
 	{
+		while (*input == ' ')
+			input++;
 		next_word_len = 0;
 		while (input[next_word_len] && ft_strchr("<>|",
 				input[next_word_len]) == NULL)
 		{
+			if (input[next_word_len] == ' ')
+				break ;
+			if (input[next_word_len] == '\'' || input[next_word_len] == '"')
+				//次のquoteまでincrement
+				if (skip_while_next_quote(input, &next_word_len))
+					return (free_token(&token), NULL);
 			next_word_len++;
 		}
 		append_token(&token, ft_strndup(input, next_word_len), WORD);
