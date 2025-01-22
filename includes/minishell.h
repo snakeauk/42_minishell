@@ -1,30 +1,42 @@
-# ifndef MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "libft.h"
-#include "ft_printf.h"
+# include "ft_printf.h"
+# include "libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 // minishell
-#include "struct.h"
-#include "lexer.h"
-#include "parser.h"
-#include "ft_builtins.h"
-#include "free.h"
-#include "debug.h"
+# include "debug.h"
+# include "free.h"
+# include "ft_builtins.h"
+# include "lexer.h"
+# include "parser.h"
+# include "struct.h"
+/* ************************************************************************** */
+/*                                  FUNCS                                     */
+/* ************************************************************************** */
 
-int main(int argc, char **argv, char **envp);
-int ft_readline(t_minishell *minishell);
-char    *ft_getenv(char *path);
+// int			main(int argc, char **argv, char **envp);
+int			ft_readline(t_minishell *minishell);
+char		*ft_getenv(char *path);
 
-// init.c
-t_minishell *init_minishell(char **envp);
+/* -----------------------------   INIT     --------------------------------- */
+t_minishell	*init_minishell(char **envp);
+void		init_line(t_minishell *minishell);
 
-// is
-int	is_pipe(char c);
+/* -----------------------------   SET UP   --------------------------------- */
+int			is_pipe(char c);
+
+/* -----------------------------   LEXER    --------------------------------- */
+t_token		*ft_lexer(char *input);
+t_token		*token_new(char *string, t_token_type type);
+void		append_token(t_token **tokens, char *string, t_token_type type);
+
+/* -----------------------------  PARSER    --------------------------------- */
+t_ast		*ft_parser(t_token *token);
 
 #endif

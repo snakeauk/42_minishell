@@ -1,4 +1,8 @@
-#include "minishell.h"
+#include "free.h"
+
+void	free_ast(t_ast **ast);
+void	free_token(t_token **token);
+void 	free_minishell(t_minishell *minishell);
 
 void	free_ast(t_ast **ast)
 {
@@ -22,8 +26,8 @@ void	free_ast(t_ast **ast)
 
 void	free_token(t_token **token)
 {
-	t_token	*cur;
-	t_token	*next;
+	t_token *cur;
+	t_token *next;
 
 	if (!token || !*token)
 		return ;
@@ -39,11 +43,8 @@ void	free_token(t_token **token)
 	*token = NULL;
 }
 
-void	free_minishell(t_minishell *minishell)
+void free_minishell(t_minishell *minishell)
 {
-	if (minishell == NULL)
-		return ;
-	init_line(minishell);
-	free(minishell);
-	minishell = NULL;
+	if (minishell->token)
+		free_token(minishell->token);
 }

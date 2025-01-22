@@ -1,63 +1,56 @@
 #include "debug.h"
 
-int	debug_token(t_token **token)
+int	debug_token(t_token *token)
 {
-	int		ret;
-	t_token	*start;
+	int	ret;
 
-	start = (*token);
+	LOG;
 	ret = 0;
-	while (start)
+	while (token)
 	{
-		printf("%s\n", start->string);
+		printf("----------------------\n");
+		printf("%s\n", token->string);
 		ret++;
-		start = start->next;
+		token = token->next;
 	}
 	return (ret);
 }
 
-void	debug_parser(t_ast **ast)
+void	print_ast(t_ast *ast)
 {
-	if (!ast || !*ast)
+	LOG;
+	if (!ast)
 		return ;
-	if ((*ast)->left)
+	if (ast->left)
 	{
-		debug_parser(&(*ast)->right);
+		print_ast(ast->left);
 	}
-	else if ((*ast)->right)
+	if (ast->right)
 	{
-		debug_parser(&(*ast)->right);
+		print_ast(ast->right);
 	}
-	if ((*ast)->token)
-		debug_token(&(*ast)->token);
+	if (ast->token)
+		debug_token(ast->token);
 }
 
-int	debug_lexer(t_token **token)
+int	print_token(t_token *token)
 {
-	int		ret;
-	t_token	*cur;
+	int			ret;
+	static char	*token_type[] = {"WORD", "PIPE", "REDIRECT_IN", "REDIRECT_OUT",
+			"REDIRECT_APPEND", "HEREDOC", "SQUOTE", "DQUOTE", "SENTINEL",
+			"ERROR"};
 
-	if (!token || !*token)
+	LOG;
+	if (!token)
 		return (0);
 	ret = 0;
-	printf("\
-    0 : WORD, \n \
-    1 : PIPE, \n \
-    2 : REDIRECT_IN, \n \
-    3 : REDIRECT_OUT, \n \
-    4 : REDIRECT_APPEND, \n \
-    5 : HEREDOC, \n \
-    6 : SQUOTE, \n \
-    7 : DQUOTE, \n \
-    8 : SENTINEL, \n \
-    9 : ERROR\n");
-	printf("==============================\n");
-	cur = *token;
-	while (cur)
+	while (token)
 	{
-		printf("%d:\t%d:\t%s\n", ret + 1, cur->type, cur->string);
-		cur = cur->next;
+		printf("%d:\t%s:\t%s\n", ret + 1, token_type[token->type],
+			token->string);
+		token = token->next;
 		ret++;
 	}
+	LOGOUT;
 	return (ret);
 }
