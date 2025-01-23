@@ -30,15 +30,15 @@ OBJS	=	$(SRCS:.c=.o)
 
 # includes
 INCLUDES	=	-I ./includes -I $(LIBFT_DIR)/includes -I $(OS_DIR)/includes
-
+LDFLAGS		=	-lreadline
 # OS differences
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 	OS_DIR		=	$(LIBFT_DIR)/mac
-	LDFLAGS		+=	-L/opt/homebrew/opt/readline/lib -lreadline
+	INCLUDES	+=	-I/opt/homebrew/opt/readline/include
+	LDFLAGS		+=	-L/opt/homebrew/opt/readline/lib
 else
 	OS_DIR		=	$(LIBFT_DIR)/linux
-	LDFLAGS		+= -lreadline
 endif
 
 
