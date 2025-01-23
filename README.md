@@ -16,6 +16,8 @@ cd 42_minishell && make
 
 <!-- ## Lexer -->
 
-
 <!-- ## Parser -->
 
+<!-- Extension -->
+
+<!-- ## Exec -->
