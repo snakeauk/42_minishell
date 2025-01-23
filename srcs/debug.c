@@ -1,22 +1,26 @@
 #include "debug.h"
 
-void	debug_parser(t_ast **ast)
+void	debug_parser(t_ast *ast)
 {
-	if (!ast || !*ast)
+	LOG;
+	if (!ast)
 		return ;
-	if ((*ast)->left)
+	if (ast->left)
 	{
-		debug_parser(&(*ast)->right);
+		puts("<--");
+		debug_parser(ast->left);
 	}
-	else if ((*ast)->right)
+	if (ast->right)
 	{
-		debug_parser(&(*ast)->right);
+		puts("-->");
+		debug_parser(ast->right);
 	}
-	if ((*ast)->token)
-		debug_token(&(*ast)->token);
+	debug_token(ast->token);
+	debug_token(ast->redirect);
+	LOGOUT;
 }
 
-int	debug_token(t_token **token)
+int	debug_token(t_token *token)
 {
 	int			ret;
 	static char	*token_type[] = {"WORD", "PIPE", "REDIRECT_IN", "REDIRECT_OUT",
@@ -27,12 +31,30 @@ int	debug_token(t_token **token)
 	if (!token)
 		return (0);
 	ret = 0;
-	while (*token)
+	while (token)
 	{
-		printf("%d:%s:%s\n", ret + 1, token_type[(*token)->type], (*token)->string);
-		*token = (*token)->next;
+		printf("%d:%s:%s\n", ret + 1, token_type[token->type], token->string);
+		token = token->next;
 		ret++;
 	}
 	LOGOUT;
 	return (ret);
 }
+
+// void debug_print_ast(t_ast *ast, int level)
+// {
+// 	t_token *current;
+
+// 	LOG;
+//     if (!ast)
+//         return;
+//     for (int i = 0; i < level; i++)
+//         printf("\t");
+//     if (ast->token)
+// 		debug_token(&ast->token);
+//     if (ast->redirect)
+// 		debug_token(&ast->redirect);
+//     debug_print_ast(ast->left, level + 1);
+//     debug_print_ast(ast->right, level + 1);
+// 	LOGOUT;
+// }

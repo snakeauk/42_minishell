@@ -1,6 +1,5 @@
 #include "lexer.h"
 
-
 t_token	*init_token_node(char *string, t_token_type type)
 {
 	t_token	*token;

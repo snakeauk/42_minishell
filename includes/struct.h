@@ -33,7 +33,7 @@ typedef struct s_minishell
 {
 	char **envp;
 	t_token *token;
-    t_ast   **ast;
+    t_ast   *ast;
 }	t_minishell;
 
 #endif
