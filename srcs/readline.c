@@ -35,9 +35,10 @@ int ft_readline(t_minishell *minishell)
         // debug_token(&minishell->token);
 
         minishell->ast = parser(minishell->token);
-        // if (!*minishell->ast)
-        //     continue;
+        if (!minishell->ast)
+            continue;
         // // parserデバック用
+        free_token(&minishell->token);
         debug_parser(minishell->ast);
         // debug_print_ast(minishell->ast, 0);
 
