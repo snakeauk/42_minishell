@@ -7,12 +7,10 @@ void	debug_parser(t_ast *ast)
 		return ;
 	if (ast->left)
 	{
-		puts("<--");
 		debug_parser(ast->left);
 	}
 	if (ast->right)
 	{
-		puts("-->");
 		debug_parser(ast->right);
 	}
 	debug_token(ast->token);
