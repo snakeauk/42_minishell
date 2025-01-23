@@ -91,3 +91,12 @@ fclean:
 re: fclean all
 
 .PHONY: all clean fclean re
+
+run: $(NAME)
+	./$(NAME)
+
+val: $(NAME)
+	valgrind --leak-check=full ./$(NAME)
+
+test: $(NAME)
+	./$(NAME) 2>/dev/null
