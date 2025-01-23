@@ -32,18 +32,19 @@ int ft_readline(t_minishell *minishell)
             continue;
 
         // lexerデバック用
-        debug_token(&minishell->token);
+        // debug_token(&minishell->token);
 
-        // minishell->ast = parser(minishell->token);
+        minishell->ast = parser(minishell->token);
         // if (!*minishell->ast)
         //     continue;
         // // parserデバック用
-        // debug_parser(minishell->ast);
+        debug_parser(minishell->ast);
+        // debug_print_ast(minishell->ast, 0);
 
         // ret = builtin_switch(ft_arraylen((void **)cmd), cmd);
         // ft_free_array2((void **)cmd);
-        free_token(&minishell->token);
-        free_ast(minishell->ast);
+        // free_token(&minishell->token);
+        free_ast(&minishell->ast);
     }
     return (ret);
 }

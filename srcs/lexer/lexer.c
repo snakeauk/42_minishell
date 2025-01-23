@@ -1,5 +1,6 @@
 #include "lexer.h"
 #include "debug.h"
+
 void	lexer_meta(t_token **token, char **string)
 {
 	t_token_type	type;

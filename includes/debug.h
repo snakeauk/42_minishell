@@ -29,10 +29,12 @@
 # define REVERSED "\033[7m"
 # define HIDDEN "\033[8m"
 
-# define LOG dprintf(STDERR_FILENO, CYAN "log :%s\n" RESET, __func__)
-# define LOGOUT dprintf(STDERR_FILENO, YELLOW "out :%s\n" RESET, __func__)
+# define LOG dprintf(STDERR_FILENO, GREEN "┏log :%s┓\n" RESET, __func__)
+# define LOGOUT dprintf(STDERR_FILENO, BLUE "┗out :%s┛\n" RESET, __func__)
 
-int		debug_token(t_token **token);
-void	debug_parser(t_ast **ast);
+int		debug_token(t_token *token);
+void	debug_parser(t_ast *ast);
+
+void debug_print_ast(t_ast *ast, int level);
 
 #endif
