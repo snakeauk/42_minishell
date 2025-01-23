@@ -8,8 +8,6 @@
 #include "type.h"
 #include "lexer.h"
 
-t_ast	*init_ast_node(void);
-// void	add_ast(t_ast **ast, t_token **token);
 t_ast	*parser(t_token *token);
 
 #endif

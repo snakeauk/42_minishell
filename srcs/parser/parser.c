@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "debug.h"
 
-t_ast	*init_ast_node(void)
+t_ast	*ast_init_node(void)
 {
 	t_ast	*new;
 
@@ -18,103 +18,78 @@ t_ast	*init_ast_node(void)
 	return (new);
 }
 
-// void    ast_add_parent(t_ast **ast, t_ast **parent)
-// {
-//     if ((!ast && !*ast) || (!parent && !*parent))
-//         return ;
-//     if ((*parent)->left)
-//     {
-//         if ((*parent)->right)
-//         {
-//             free_ast(ast);
-//             free_ast(parent);
-//             return ;
-//         }
-//         (*parent)->right = *ast;
-//         ast = parent;
-//     }
-//     (*parent)->left = *ast;
-//     ast = parent;
-// }
-
-t_ast *parse_statement(t_token *tokens)
+t_ast *parse_statement(t_token **tokens)
 {
-    t_ast	*ast;
-    t_token *current;
-	t_token	*redirect_arg;
+    t_ast	        *ast;
+    t_token         *current;
+    t_token_type    type;
 
-    ast = init_ast_node();
-    while (tokens && (tokens)->type != PIPE)
+    ast = ast_init_node();
+    while (*tokens && (*tokens)->type != PIPE)
     {
-        current = tokens;
-        tokens = tokens->next;
-		if (current->type == WORD)
-		{
-			append_token(&ast->token, init_token_node(current->string, WORD));
-		}
-        else if (current->type == REDIRECT_IN || current->type == REDIRECT_OUT || current->type == REDIRECT_APPEND || current->type == HEREDOC)
+        current = *tokens;
+        *tokens = (*tokens)->next;
+        if (current->type == REDIRECT_IN || current->type == REDIRECT_OUT || current->type == REDIRECT_APPEND || current->type == HEREDOC)
         {
-            if (tokens && tokens->type == WORD)
+            if (*tokens && (*tokens)->type == WORD)
             {
-				redirect_arg = tokens;
-				tokens = tokens->next;
-				append_token(&ast->redirect, init_token_node(redirect_arg->string, current->type));
+                type = current->type;
+				token_append(&ast->redirect, token_init_node(ft_strdup((*tokens)->string), type));
+				*tokens = (*tokens)->next;
             }
             else
             {
-                ft_putstr_fd("syntax error: expected a WORD after redirection\n", STDERR_FILENO);
+                ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
 				free_ast(&ast);
-				free_token(&tokens);
                 return (NULL);
             }
         }
-		// else
-    }
-    return (ast);
-}
-
-
-t_ast *parse_line(t_token *tokens)
-{
-    t_ast *ast;
-	t_token *pipe_token;
-    t_ast *right_node;
-    t_ast *new_node;
-
-    ast = parse_statement(tokens);
-    if (!ast)
-        return (NULL);
-    while (tokens && tokens->type == PIPE)
-    {
-		pipe_token = tokens;
-        tokens = tokens->next;
-        right_node = parse_statement(tokens);
-        if (!right_node)
-        {
-            ft_putstr_fd("syntax error: expected a WORD after pipe\n", STDERR_FILENO);
-			free_ast(&ast);
-            return (NULL);
-        }
-        new_node = init_ast_node();
-        append_token(&new_node->token, init_token_node(pipe_token->string, PIPE));
-        new_node->left = ast;
-        new_node->right = right_node;
-		ast = new_node;
+        else
+            token_append(&ast->token, token_init_node(ft_strdup(current->string), WORD));
     }
     return (ast);
 }
 
 t_ast *parser(t_token *tokens)
 {
-	t_ast *ast;
+    t_ast   *root;
+    t_ast   *ast;
+    t_ast   *right_node;
+    t_ast   *new_root;
 
-	LOG;
-	ast = parse_line(tokens);
-	if (!ast)
-		return (NULL);
-	LOGOUT;
-	return (ast);
+    ast = parse_statement(&tokens);
+    if (!ast)
+        return (NULL);
+    while (tokens && tokens->type == PIPE)
+    {
+        tokens = tokens->next;
+        right_node = parse_statement(&tokens);
+        if (!right_node)
+        {
+            ft_putstr_fd("syntax error: expected a WORD after pipe\n", STDERR_FILENO);
+			free_ast(&ast);
+            return (NULL);
+        }
+        new_root = ast_init_node();
+        token_append(&new_root->token, token_init_node(ft_strdup("|"), PIPE));
+        new_root->left = ast;
+        new_root->right = right_node;
+		ast = new_root;
+    }
+    return (ast);
 }
+
+// t_ast *parser(t_token *tokens)
+// {
+// 	t_ast *ast;
+
+// 	LOG;
+// 	ast = parse_line(tokens);
+// 	if (!ast)
+// 		return (NULL);
+// 	LOGOUT;
+// 	return (ast);
+// }
 
 /*
 // t_ast *init_ast_node(t_token **token);
