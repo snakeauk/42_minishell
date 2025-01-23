@@ -39,7 +39,10 @@ t_ast *parse_statement(t_token **tokens)
             }
             else
             {
-                ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+                if (!*tokens)
+                    ft_dprintf(STDERR_FILENO, "minishell: syntax error near unexpected token `newline'\n");
+                else
+                    ft_dprintf(STDERR_FILENO, "minishell: syntax error near unexpected token `%s'\n", (*tokens)->string);
 				free_ast(&ast);
                 return (NULL);
             }
