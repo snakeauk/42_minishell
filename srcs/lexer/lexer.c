@@ -19,7 +19,7 @@ void	lexer_meta(t_token **token, char **string)
 		token = NULL;
 		return ;
 	}
-	append_token(token, init_token_node(ft_strndup(start, (size_t)(*string + 1 - start)), type));
+	token_append(token, token_init_node(ft_strndup(start, (size_t)(*string + 1 - start)), type));
 }
 
 void	lexer_search_quote(t_token **token, char **string)
@@ -61,10 +61,8 @@ t_token *lexer(char *input)
 		{
 			// inputまでをリストに追加
 			if (input != start)
-				append_token(&token, init_token_node(ft_strndup(start, input - start), WORD));
+				token_append(&token, token_init_node(ft_strndup(start, input - start), WORD));
 			lexer_meta(&token, &input);
-			if (!token)
-				return (NULL);
 			start = input + 1;
 		}
 		else if (is_dquote(*input) || is_squote(*input))
@@ -78,7 +76,7 @@ t_token *lexer(char *input)
 		input++;
 	}
 	if (input != start)
-		append_token(&token, init_token_node(ft_strndup(start, input - start), WORD));
+		token_append(&token, token_init_node(ft_strndup(start, input - start), WORD));
 	LOGOUT;
 	return (token);
 }

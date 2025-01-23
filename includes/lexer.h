@@ -20,9 +20,9 @@ t_token_type	lexer_pipe(char **string);
 t_token_type	lexer_redirect(char **string);
 
 // token.c
-t_token	*init_token_node(char *string, t_token_type type);
+t_token	*token_init_node(char *string, t_token_type type);
 t_token	*token_last(t_token *token);
-void	append_token(t_token **tokens, t_token *node);
+void	token_append(t_token **tokens, t_token *node);
 
 
 
