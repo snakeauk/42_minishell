@@ -18,7 +18,7 @@ void	lexer_meta(t_token **token, char **string)
 		token = NULL;
 		return ;
 	}
-	append_token(token, init_token_node(ft_strndup(start, (size_t)(*string - start)), type));
+	append_token(token, init_token_node(ft_strndup(start, (size_t)(*string + 1 - start)), type));
 }
 
 void	lexer_search_quote(t_token **token, char **string)

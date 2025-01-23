@@ -2,7 +2,6 @@
 
 t_token_type	lexer_pipe(char **string);
 t_token_type	lexer_redirect(char **string);
-t_token_type	lexer_quote(char **string);
 
 t_token_type	lexer_pipe(char **string)
 {
