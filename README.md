@@ -1,18 +1,21 @@
 # 42_minishell
 
-This is 42 project.
+This is 42cursus project.
 
+## **⚠️ Work In Progress ⚠️**
+
+This project is currently under development, and some features may not yet be fully implemented.
 
 ## Usage
-This repository has Makefile.
-### compile all
+```sh
+git clone https://github.com/snakeauk/42_minishell.git
+cd 42_minishell && make
+./minishell
 ```
-make 
-```
 
 
-## Lexer
+<!-- ## Lexer -->
 
 
-## Parser
+<!-- ## Parser -->
 
