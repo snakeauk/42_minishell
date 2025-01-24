@@ -2,7 +2,6 @@
 
 void	free_ast(t_ast **ast);
 void	free_token(t_token **token);
-void 	free_minishell(t_minishell *minishell);
 
 void	free_ast(t_ast **ast)
 {
@@ -43,8 +42,14 @@ void	free_token(t_token **token)
 	*token = NULL;
 }
 
-void free_minishell(t_minishell *minishell)
+void free_minishell(t_minishell **minishell)
 {
-	if (minishell->token)
-		free_token(&minishell->token);
+	if (!minishell || !*minishell)
+		return ;
+	if ((*minishell)->env)
+		ft_lstclear(&((*minishell)->env), free);
+	if ((*minishell)->token)
+		free_token(&(*minishell)->token);
+	if ((*minishell))
+		free((*minishell));
 }
