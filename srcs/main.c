@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **envp)
         exit(EXIT_FAILURE);
     signal(SIGINT, sigint_handler);
     ret = ft_readline(minishell);
-    free_minishell(minishell);
+    free_minishell(&minishell);
     return (ret);
 }
 // -------------------------------builtin debug--------------------------------------------

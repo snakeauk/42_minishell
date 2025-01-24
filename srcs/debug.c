@@ -39,20 +39,22 @@ int	debug_token(t_token *token)
 	return (ret);
 }
 
-// void debug_print_ast(t_ast *ast, int level)
-// {
-// 	t_token *current;
+int	debug_env(t_list *env)
+{
+	t_list	*current;
+	int		index;
 
-// 	LOG;
-//     if (!ast)
-//         return;
-//     for (int i = 0; i < level; i++)
-//         printf("\t");
-//     if (ast->token)
-// 		debug_token(&ast->token);
-//     if (ast->redirect)
-// 		debug_token(&ast->redirect);
-//     debug_print_ast(ast->left, level + 1);
-//     debug_print_ast(ast->right, level + 1);
-// 	LOGOUT;
-// }
+	LOG;
+	if (!env)
+		return (0);
+	current = env;
+	index = 0;
+	while (current)
+	{
+		printf("%d:\t%s\n", index, (char *)current->content);
+		current = current->next;
+		index++;
+	}
+	LOGOUT;
+	return (index);
+}

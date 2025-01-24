@@ -1,6 +1,8 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
+#include "libft.h"
+
 typedef enum e_token_type {
     WORD,
     PIPE,
@@ -31,7 +33,7 @@ typedef struct s_ast
 
 typedef struct s_minishell
 {
-	char **envp;
+	t_list  *env;
 	t_token *token;
     t_ast   *ast;
 }	t_minishell;

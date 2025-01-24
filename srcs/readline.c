@@ -19,6 +19,7 @@ int ft_readline(t_minishell *minishell)
     int     ret;
 
     ret = 0;
+    debug_env(minishell->env);
     rl_clear_history();
     while (1)
     {
