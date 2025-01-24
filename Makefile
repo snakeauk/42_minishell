@@ -16,14 +16,19 @@ SRCS_DIR	=	./srcs
 BUILTIN_DIR	=	$(SRCS_DIR)/builtin
 LEXER_DIR	=	$(SRCS_DIR)/lexer
 PARSER_DIR	=	$(SRCS_DIR)/parser
+EXPAN_DIR	=	$(SRCS_DIR)/expansion
+EXEC_DIR	=	$(SRCS_DIR)/execution
 TYPE_DIR	=	$(SRCS_DIR)/type
 
 SRCS_COMMON	=	$(wildcard $(SRCS_DIR)/*.c)
 BUILTIN_SRCS=	$(wildcard $(BUILTIN_DIR)/*.c)
 LEXER_SRCS	=	$(wildcard $(LEXER_DIR)/*.c)
 PARSER_SRCS	=	$(wildcard $(PARSER_DIR)/*.c)
+EXPAN_SRCS	=	$(wildcard $(EXPAN_DIR)/*.c)
+EXEC_SRCS	=	$(wildcard $(EXEC_DIR)/*.c)
 TYPE_SRCS	=	$(wildcard $(TYPE_DIR)/*.c)
-SRCS		=	$(SRCS_COMMON) $(BUILTIN_SRCS) $(LEXER_SRCS) $(PARSER_SRCS) $(TYPE_SRCS)
+
+SRCS		=	$(SRCS_COMMON) $(BUILTIN_SRCS) $(LEXER_SRCS) $(PARSER_SRCS) $(EXPAN_SRCS) $(EXEC_SRCS) $(TYPE_SRCS)
 
 # object
 OBJS	=	$(SRCS:.c=.o)
