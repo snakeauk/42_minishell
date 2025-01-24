@@ -4,6 +4,7 @@
 #include "struct.h"
 #include <stdio.h>
 #include <unistd.h>
+#include "libft.h"
 
 # define RESET "\033[0m"
 # define RED "\033[31m"
@@ -34,7 +35,7 @@
 
 int		debug_token(t_token *token);
 void	debug_parser(t_ast *ast);
+int     debug_env(t_list *env);
 
-void debug_print_ast(t_ast *ast, int level);
 
 #endif
