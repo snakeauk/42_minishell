@@ -1,0 +1,35 @@
+name: Makefile test
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: update apt-get
+      run : sudo apt-get update
+
+    - name: install-build-essential
+      run : sudo apt-get install build-essential -y
+
+    - name: install-libreadline-dev
+      run : sudo apt install libreadline-dev
+
+    - name: checkout
+      uses: actions/checkout@v4
+
+    - name: all
+      run : make
+    
+    - name: make clean
+      run : make clean
+    
+    - name: make fclean
+      run : make fclean
+
+    - name: make re
+      run : make & make re
