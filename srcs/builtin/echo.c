@@ -1,45 +1,28 @@
 #include "ft_builtins.h"
 
-int print_echo(char *str, int e)
-{
-    char tmp[3];
-
-    tmp[2] = '\0';
-    while (str)
-    {
-        if (e && (*str == '\\' && *str + 1))
-        {
-            write(1, "OK!\n", 4);
-            tmp[0] = *str;
-            str++;
-            tmp[1] = *str;
-            str++;
-            write(STDOUT_FILENO, tmp, 1);
-        }
-        else
-            ft_fputc(*str, STDOUT_FILENO);
-        str++;
-    }
-    return (0);
-}
-
 int builtin_echo(int argc, char **argv)
 {
-    int index;
+    int i;
+    int display_newline;
 
-    if (argc == 1)
+    i = 1;
+    display_newline = 1;
+    if (i < argc)
     {
-        ft_dprintf(STDOUT_FILENO, "\n");
-        return (0);
+        if (ft_strcmp(argv[i], "-n") == 0)
+        {
+            display_newline = 0;
+            i++;
+        }
     }
-    index = 1;
-    while (index < argc)
+    while (i < argc)
     {
-        if (index != 1)
-            ft_dprintf(STDOUT_FILENO, " ");
-        print_echo(argv[index], (ft_strcmp(argv[0] , "-e")));
-        ft_dprintf(STDOUT_FILENO, "\n");
-        index++;
+        printf("%s", argv[i]);
+        i++;
+        if (i < argc)
+            printf(" ");
     }
-    return (0);
+    if (display_newline)
+        ft_putchar('\n');
+    return 0;
 }
