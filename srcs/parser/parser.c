@@ -60,6 +60,13 @@ t_ast *parser(t_token *tokens)
     t_ast   *right_node;
     t_ast   *new_root;
 
+    if (!tokens)
+        return (NULL);
+    if (tokens->type == PIPE)
+    {
+        ft_putstr_fd("syntax error: expected a WORD before pipe\n", STDERR_FILENO);
+        return (NULL);
+    }
     ast = parse_statement(&tokens);
     if (!ast)
         return (NULL);
