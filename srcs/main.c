@@ -21,6 +21,7 @@ int main(int argc, char **argv, char **envp)
     minishell = init_minishell(envp);
     if (!minishell)
         exit(EXIT_FAILURE);
+	// debug_env(minishell->env);
     signal(SIGINT, sigint_handler);
     ret = ft_readline(minishell);
     free_minishell(&minishell);

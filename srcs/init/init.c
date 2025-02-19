@@ -1,25 +1,23 @@
-#include "minishell.h"
+#include "init.h"
 
-t_list	*envp_to_list(char **envp)
+static t_list	*envp_to_list(char **envp)
 {
 	t_list	*env;
 	t_list	*new;
-	int		i;
 
-	i = 0;
 	env = NULL;
 	if (!envp)
 		return (NULL);
-	while (envp[i])
+	while (*envp)
 	{
-		new = ft_lstnew(ft_strdup(envp[i]));
+		new = ft_lstnew(ft_strdup(*envp));
 		if (!new)
 		{
 			perror("envp_to_list");
 			return (NULL);
 		}
 		ft_lstadd_back(&env, new);
-		i++;
+		envp++;
 	}
 	return (env);
 }
