@@ -11,18 +11,16 @@
 #include "ft_printf.h"
 // minishell
 #include "struct.h"
+#include "init.h"
 #include "lexer.h"
 #include "parser.h"
 #include "ft_builtins.h"
 #include "free.h"
 #include "debug.h"
 
-int main(int argc, char **argv, char **envp);
-int ft_readline(t_minishell *minishell);
-char    *ft_getenv(char *path);
-
-// init.c
-t_minishell *init_minishell(char **envp);
+int		main(int argc, char **argv, char **envp);
+int 	ft_readline(t_minishell *minishell);
+char	*ft_getenv(char *path);
 
 // is
 int	is_pipe(char c);
