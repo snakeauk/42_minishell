@@ -133,8 +133,8 @@ $(NAME): $(OBJS)
 	@printf "\r\033[K$(BOLD)$(LIGHT_BLUE)$(NAME) created successfully!$(RESET)\n"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@$(progress)
 	@mkdir -p $(dir $@)
+	@$(progress)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
