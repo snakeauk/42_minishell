@@ -4,18 +4,20 @@ CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -rf
 AR			=	ar rcs
 
-SRCS_DIR    =	./srcs
+SRCS_DIR	=	./srcs
 
-UNAME_S     = $(shell uname -s)
+OBJS_DIR	=	./objs
+
+UNAME_S		=	$(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
-    OS_DIR  = ./mac
+	OS		=	mac
 else
-    OS_DIR  = ./linux
+	OS		=	linux
 endif
 
-INCLUDES	=	-I ./includes -I $(OS_DIR)/includes
+INCLUDES	=	-I ./includes -I ./includes/$(OS)
 
-OS_SRCS_DIR	=	$(OS_DIR)/srcs
+OS_SRCS_DIR	=	$(SRCS_DIR)/$(OS)
 PRINTF_DIR	=	$(OS_SRCS_DIR)/ft_printf
 PRINTF_SRCS	=	$(PRINTF_DIR)/ft_dprintf.c \
 				$(PRINTF_DIR)/ft_fputc.c \
@@ -105,43 +107,45 @@ STRING_SRCS	=	$(STRING_DIR)/ft_split.c \
 
 SRCS		=	$(OS_SRCS) $(CTYPE_SRCS) $(FREE_SRCS) $(GNL_SRCS) $(LIST_SRCS) $(MATH_SRCS) $(MEM_SRCS) \
 				$(STDIO_SRCS) $(STDLIB_SRCS) $(STRING_SRCS)
-OBJS		=	$(SRCS:.c=.o)
+
+OBJS		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 RESET		=	\033[0m
 BOLD		=	\033[1m
 LIGHT_BLUE	=	\033[94m
 YELLOW		=	\033[93m
 
-TOTAL_FILES := $(words $(OBJS))
-CURRENT_FILE := 0
+# Progress Bar
+TOTAL_FILES	:=	$(words $(OBJS))
+COMPILED	=	0
 
 define progress
-    @CURRENT_PERCENT=$$(expr $(CURRENT_FILE) \* 100 / $(TOTAL_FILES)); \
-    printf "$(YELLOW)Progress: %3d%% (%d/%d)$(RESET)\r" $$CURRENT_PERCENT $(CURRENT_FILE) $(TOTAL_FILES); \
-    $(eval CURRENT_FILE=$$(($(CURRENT_FILE)+1)))
+	@$(eval COMPILED=$(shell echo $$(expr $(COMPILED) + 1)))
+	@CURRENT_PERCENT=$$(expr $(COMPILED) \* 100 / $(TOTAL_FILES)); \
+	printf "\033[K$(YELLOW)[%3d%%] Libft Compiling: $<$(RESET)\r" $$CURRENT_PERCENT
 endef
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	@printf "\033[K$(BOLD)$(LIGHT_BLUE)Compiling $(NAME)...$(RESET)"
 	@$(AR) $(NAME) $(OBJS)
-	@echo "$(BOLD)$(LIGHT_BLUE)$(NAME) created successfully!$(RESET)"
+	@printf "\r\033[K$(BOLD)$(LIGHT_BLUE)$(NAME) created successfully!$(RESET)\n"
 
-%.o: %.c
-	@$(eval CURRENT_FILE=$(shell expr $(CURRENT_FILE) + 1))
-	@CURRENT_PERCENT=$$(expr $(CURRENT_FILE) \* 100 / $(TOTAL_FILES)); \
-	printf "$(YELLOW)Progress: %3d%% (%d/%d)$(RESET)\r" $$CURRENT_PERCENT $(CURRENT_FILE) $(TOTAL_FILES); \
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@$(progress)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME)...$(RESET)"
-	@$(RM) $(OBJS)
-	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning $(NAME) Complete!$(RESET)"
+	@printf "\033[K$(BOLD)$(LIGHT_BLUE)Cleaning object files...$(RESET)"
+	@$(RM) $(OBJS_DIR)
+	@printf "\r\033[K$(BOLD)$(LIGHT_BLUE)Libft cleaned!$(RESET)\n"
 
 fclean:
-	@echo "$(BOLD)$(LIGHT_BLUE)Full Cleaning $(NAME)...$(RESET)"
-	@$(RM) $(OBJS) $(NAME)
-	@echo "$(BOLD)$(LIGHT_BLUE)Full Cleaning $(NAME) Complete!$(RESET)"
+	@printf "\033[K$(BOLD)$(LIGHT_BLUE)Removing $(NAME)...$(RESET)"
+	@$(RM) $(OBJS_DIR) $(NAME)
+	@printf "\r\033[K$(BOLD)$(LIGHT_BLUE)Libft Full clean complete!$(RESET)\n"
 
 re: fclean all
 

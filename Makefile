@@ -9,95 +9,106 @@ MAKEFLAGS	+=	--no-print-directory
 # libft
 LIBFT		=	libft
 LIBFT_DIR	=	./$(LIBFT)
-LIBFT_A     =	$(LIBFT_DIR)/$(LIBFT).a
+LIBFT_A		=	$(LIBFT_DIR)/$(LIBFT).a
 
-# srcs
+# Directories
 SRCS_DIR	=	./srcs
-INIT_DIR	=	$(SRCS_DIR)/init
 BUILTIN_DIR	=	$(SRCS_DIR)/builtin
 LEXER_DIR	=	$(SRCS_DIR)/lexer
 PARSER_DIR	=	$(SRCS_DIR)/parser
-EXPAN_DIR	=	$(SRCS_DIR)/expansion
+EXPAND_DIR	=	$(SRCS_DIR)/expansion
 EXEC_DIR	=	$(SRCS_DIR)/execution
+INIT_DIR	=	$(SRCS_DIR)/init
 TYPE_DIR	=	$(SRCS_DIR)/type
 
-SRCS_COMMON	=	$(wildcard $(SRCS_DIR)/*.c)
-INIT_SRCS	=	$(wildcard $(INIT_DIR)/*.c)
+OBJS_DIR	=	./objs
+
+# Sources
 BUILTIN_SRCS=	$(wildcard $(BUILTIN_DIR)/*.c)
 LEXER_SRCS	=	$(wildcard $(LEXER_DIR)/*.c)
 PARSER_SRCS	=	$(wildcard $(PARSER_DIR)/*.c)
-EXPAN_SRCS	=	$(wildcard $(EXPAN_DIR)/*.c)
+EXPAND_SRCS	=	$(wildcard $(EXPAND_DIR)/*.c)
+INIT_SRCS	=	$(wildcard $(INIT_DIR)/*.c)
 EXEC_SRCS	=	$(wildcard $(EXEC_DIR)/*.c)
 TYPE_SRCS	=	$(wildcard $(TYPE_DIR)/*.c)
+COMMON_SRCS	=	$(SRCS_DIR)/free.c \
+				$(SRCS_DIR)/readline.c \
+				$(SRCS_DIR)/env.c \
+				$(SRCS_DIR)/main.c
+DEBUG_SRCS	=	$(SRCS_DIR)/debug.c
 
-SRCS		=	$(SRCS_COMMON) $(INIT_SRCS) $(BUILTIN_SRCS) $(LEXER_SRCS) $(PARSER_SRCS) $(EXPAN_SRCS) $(EXEC_SRCS) $(TYPE_SRCS)
+SRCS		=	$(BUILTIN_SRCS) $(LEXER_SRCS) $(PARSER_SRCS) $(INIT_SRCS) \
+				$(EXPAND_SRCS) $(EXEC_SRCS) $(TYPE_SRCS) $(COMMON_SRCS) $(DEBUG_SRCS)
 
-# object
-OBJS	=	$(SRCS:.c=.o)
+# Objects
+OBJS		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 # includes
-INCLUDES	=	-I ./includes -I $(LIBFT_DIR)/includes -I $(OS_DIR)/includes
+INCLUDES	=	-I ./includes -I $(LIBFT_DIR)/includes
 LDFLAGS		=	-lreadline
+
 # OS differences
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
-	OS_DIR		=	$(LIBFT_DIR)/mac
+	OS			=	mac
 	INCLUDES	+=	-I/opt/homebrew/opt/readline/include
 	LDFLAGS		+=	-L/opt/homebrew/opt/readline/lib
 else
-	OS_DIR		=	$(LIBFT_DIR)/linux
+	OS			=	linux
+	INCLUDES	+=	-I/usr/include/readline
+	LDFLAGS		+=	-L/usr/lib -lreadline
 endif
 
+INCLUDES		+=	-I $(LIBFT_DIR)/includes/$(OS)
 
-# font color
+
+# Colors
 RESET		=	\033[0m
 BOLD		=	\033[1m
 LIGHT_BLUE	=	\033[94m
 YELLOW		=	\033[93m
 
-# extra rule
-TOTAL_FILES := $(words $(OBJS) $(SERVER_OBJS))
-CURRENT_FILE := 0
+# Progress Bar
+TOTAL_FILES	:=	$(words $(OBJS))
+COMPILED	=	0
 
 define progress
-	@CURRENT_PERCENT=$$(expr $(CURRENT_FILE) \* 100 / $(TOTAL_FILES)); \
-	printf "$(YELLOW)Progress: %3d%% (%d/%d)$(RESET)\r" $$CURRENT_PERCENT $(CURRENT_FILE) $(TOTAL_FILES); \
-	$(eval CURRENT_FILE=$$(($(CURRENT_FILE)+1)))
+	@$(eval COMPILED=$(shell echo $$(expr $(COMPILED) + 1)))
+	@CURRENT_PERCENT=$$(expr $(COMPILED) \* 100 / $(TOTAL_FILES)); \
+	printf "\033[K$(YELLOW)[%3d%%] Compiling: $<$(RESET)\r" $$CURRENT_PERCENT
 endef
 
-# rule
-all: $(LIBFT_A) $(NAME)
+# Targets
+all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_A)
-	@echo "$(BOLD)$(LIGHT_BLUE)Compiling $(NAME)...$(RESET)"
+$(NAME): $(LIBFT_A) $(OBJS)
+	@printf "\033[K$(BOLD)$(LIGHT_BLUE)Compiling $(NAME)...$(RESET)"
 	@$(CC) $(OBJS) $(LIBFT_A) -o $(NAME) $(LDFLAGS)
-	@echo "$(BOLD)$(LIGHT_BLUE)$(NAME) created successfully!$(RESET)"
+	@printf "\r\033[K$(BOLD)$(LIGHT_BLUE)$(NAME) created successfully!$(RESET)\n"
 
 $(LIBFT_A):
-	@echo "$(BOLD)$(LIGHT_BLUE)Compiling $(LIBFT)...$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 
-%.o: %.c
-	@$(eval CURRENT_FILE=$(shell expr $(CURRENT_FILE) + 1))
-	@CURRENT_PERCENT=$$(expr $(CURRENT_FILE) \* 100 / $(TOTAL_FILES)); \
-	printf "$(YELLOW)Progress: %3d%% (%d/%d)$(RESET)\r" $$CURRENT_PERCENT $(CURRENT_FILE) $(TOTAL_FILES); \
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@$(progress)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@echo "$(BOLD)$(LIGHT_BLUE)Cleaning objects...$(RESET)"
+	@printf "\033[K$(BOLD)$(LIGHT_BLUE)Cleaning object files...$(RESET)"
 	@$(MAKE) clean -C $(LIBFT_DIR)
-	@$(RM) $(OBJS)
-	@echo "$(BOLD)$(LIGHT_BLUE)Objects cleaned!$(RESET)"
+	@$(RM) $(OBJS_DIR)
+	@printf "\r\033[K$(BOLD)$(LIGHT_BLUE)Objects cleaned!$(RESET)\n"
 
 fclean:
-	@echo "$(BOLD)$(LIGHT_BLUE)Full clean...$(RESET)"
+	@printf "\033[K$(BOLD)$(LIGHT_BLUE)Removing $(NAME)...$(RESET)"
 	@$(MAKE) fclean -C $(LIBFT_DIR)
-	@$(RM) $(OBJS) $(NAME)
-	@echo "$(BOLD)$(LIGHT_BLUE)Full clean complete!$(RESET)"
+	@$(RM) $(NAME) $(OBJS_DIR)
+	@printf "\r\033[K$(BOLD)$(LIGHT_BLUE)Full clean complete!$(RESET)\n"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run valgrind
 
 run: $(NAME)
 	./$(NAME)
@@ -107,3 +118,5 @@ val: $(NAME)
 
 test: $(NAME)
 	./$(NAME) 2>/dev/null
+
+.PHONY: run val test
