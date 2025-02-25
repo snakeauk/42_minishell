@@ -9,27 +9,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: update apt-get
-      run : sudo apt-get update
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: install-build-essential
-      run : sudo apt-get install build-essential -y
+      - name: Update apt-get
+        run: sudo apt-get update
 
-    - name: install-libreadline-dev
-      run : sudo apt install libreadline-dev
+      - name: Install dependencies
+        run: sudo apt-get install -y build-essential libreadline-dev gcc
 
-    - name: checkout
-      uses: actions/checkout@v4
+      - name: Run Makefile
+        run: make
 
-    - name: all
-      run : make
-    
-    - name: make clean
-      run : make clean
-    
-    - name: make fclean
-      run : make fclean
+      - name: Run make clean
+        run: make clean
 
-    - name: make re
-      run : make & make re
+      - name: Run make fclean
+        run: make fclean
+
+      - name: Run make re
+        run: make re
