@@ -20,8 +20,11 @@ jobs:
       - name: Set up C compiler
         run: echo "CC=gcc" >> $GITHUB_ENV
 
+      - name: Verify C compiler
+        run: echo $CC && which gcc
+
       - name: make test
-        run: make
+        run: export CC=gcc && make
 
       - name: clean test
         run: make clean
