@@ -90,8 +90,8 @@ $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@$(progress)
 	@mkdir -p $(dir $@)
+	@$(progress)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
