@@ -1,7 +1,7 @@
 NAME		=	minishell
 
 # commands
-CC			=	CC
+CC			=	cc
 CFLAGS		=	-g# -Wall -Wextra -Werror
 RM			=	rm -rf
 MAKEFLAGS	+=	--no-print-directory
