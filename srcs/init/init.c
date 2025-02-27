@@ -3,7 +3,7 @@
 void	list_append(char *key_pair, t_list **list)
 {
 	t_list	*new_node;
-	t_list	*aux;
+	t_list	*cur;
 
 	new_node = ft_lstnew(ft_strdup(key_pair));
 	if (!new_node)
@@ -16,13 +16,13 @@ void	list_append(char *key_pair, t_list **list)
 		*list = new_node;
 		return ;
 	}
-	aux = *list;
-	while (aux->next)
-		aux = aux->next;
-	aux->next = new_node;
+	cur = *list;
+	while (cur->next)
+		cur = cur->next;
+	cur->next = new_node;
 }
 
-static t_list *envp_to_list(char **envp)
+static t_list	*envp_to_list(char **envp)
 {
 	t_list	*env;
 	char	*home;
