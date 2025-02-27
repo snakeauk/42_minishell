@@ -11,25 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: update apt-get
-      run : sudo apt-get update
+      run: sudo apt-get update
 
     - name: install-build-essential
-      run : sudo apt-get install build-essential -y
+      run: sudo apt-get install build-essential -y
 
     - name: install-libreadline-dev
-      run : sudo apt install libreadline-dev
+      run: sudo apt install libreadline-dev -y
 
     - name: checkout
       uses: actions/checkout@v4
 
     - name: all
-      run : make
-    
+      run: make
+
     - name: make clean
-      run : make clean
-    
+      run: make clean
+
     - name: make fclean
-      run : make fclean
+      run: make fclean
 
     - name: make re
-      run : make & make re
+      run: make && make re
