@@ -1,6 +1,6 @@
 #include "ft_builtins.h"
 
-int builtin_switch(int argc, char **argv)
+int	builtin_switch(int argc, char **argv, t_list *minienv)
 {
     int ret;
 
@@ -13,7 +13,7 @@ int builtin_switch(int argc, char **argv)
     if (ft_strcmp(argv[0], "echo"))
         ret = builtin_echo(argc, argv);
     else if (ft_strcmp(argv[0], "cd"))
-        ret = builtin_cd(argc, argv);
+        ret = builtin_cd(argc, argv, minienv);
     else if (ft_strcmp(argv[0], "pwd"))
         ret = builtin_pwd(argc, argv);
     else if (ft_strcmp(argv[0], "exit"))

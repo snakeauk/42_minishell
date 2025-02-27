@@ -20,6 +20,7 @@ EXPAND_DIR	=	$(SRCS_DIR)/expansion
 EXEC_DIR	=	$(SRCS_DIR)/execution
 INIT_DIR	=	$(SRCS_DIR)/init
 TYPE_DIR	=	$(SRCS_DIR)/type
+MINIENV_DIR	=	$(SRCS_DIR)/minienv
 
 OBJS_DIR	=	./objs
 
@@ -31,6 +32,7 @@ EXPAND_SRCS	=	$(wildcard $(EXPAND_DIR)/*.c)
 INIT_SRCS	=	$(wildcard $(INIT_DIR)/*.c)
 EXEC_SRCS	=	$(wildcard $(EXEC_DIR)/*.c)
 TYPE_SRCS	=	$(wildcard $(TYPE_DIR)/*.c)
+MINIENV_SRCS=	$(wildcard $(MINIENV_DIR)/*.c)
 COMMON_SRCS	=	$(SRCS_DIR)/free.c \
 				$(SRCS_DIR)/readline.c \
 				$(SRCS_DIR)/env.c \
@@ -38,7 +40,7 @@ COMMON_SRCS	=	$(SRCS_DIR)/free.c \
 DEBUG_SRCS	=	$(SRCS_DIR)/debug.c
 
 SRCS		=	$(BUILTIN_SRCS) $(LEXER_SRCS) $(PARSER_SRCS) $(INIT_SRCS) \
-				$(EXPAND_SRCS) $(EXEC_SRCS) $(TYPE_SRCS) $(COMMON_SRCS) $(DEBUG_SRCS)
+				$(EXPAND_SRCS) $(EXEC_SRCS) $(TYPE_SRCS) $(COMMON_SRCS) $(DEBUG_SRCS) $(MINIENV_SRCS)
 
 # Objects
 OBJS		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)

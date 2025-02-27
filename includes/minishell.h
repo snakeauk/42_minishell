@@ -17,6 +17,7 @@
 #include "ft_builtins.h"
 #include "free.h"
 #include "debug.h"
+#include "minienv.h"
 
 int		main(int argc, char **argv, char **envp);
 int 	ft_readline(t_minishell *minishell);
